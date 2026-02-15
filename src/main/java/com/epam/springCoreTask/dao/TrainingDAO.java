@@ -7,7 +7,7 @@ import com.epam.springCoreTask.model.Training;
 
 public interface TrainingDAO {
     
-    Training create(Training training);
+    Training save(Training training);
     Training findById(UUID id);
     List<Training> findAll();
     

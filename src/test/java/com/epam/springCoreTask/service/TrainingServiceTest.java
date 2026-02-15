@@ -19,6 +19,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.epam.springCoreTask.dao.TrainingDAO;
 import com.epam.springCoreTask.model.Training;
 import com.epam.springCoreTask.model.TrainingType;
+import com.epam.springCoreTask.service.impl.TrainingServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
 class TrainingServiceTest {
@@ -27,7 +28,7 @@ class TrainingServiceTest {
     private TrainingDAO trainingDAO;
 
     @InjectMocks
-    private TrainingService trainingService;
+    private TrainingServiceImpl trainingService;
 
     private Training testTraining;
     private UUID testTrainingId;
@@ -61,7 +62,7 @@ class TrainingServiceTest {
         LocalDate trainingDate = LocalDate.now();
         int trainingDuration = 60;
         
-        when(trainingDAO.create(any(Training.class))).thenReturn(testTraining);
+        when(trainingDAO.save(any(Training.class))).thenReturn(testTraining);
 
         // Act
         Training result = trainingService.createTraining(testTraineeId, testTrainerId, 
@@ -73,13 +74,13 @@ class TrainingServiceTest {
         assertEquals(testTraineeId, result.getTraineeId());
         assertEquals(testTrainerId, result.getTrainerId());
         assertEquals(trainingDuration, result.getTrainingDuration());
-        verify(trainingDAO).create(any(Training.class));
+        verify(trainingDAO).save(any(Training.class));
     }
 
     @Test
     void testCreateTraining_GeneratesTrainingId() {
         // Arrange
-        when(trainingDAO.create(any(Training.class))).thenAnswer(invocation -> {
+        when(trainingDAO.save(any(Training.class))).thenAnswer(invocation -> {
             Training training = invocation.getArgument(0);
             assertNotNull(training.getTrainingId());
             return training;
@@ -91,7 +92,7 @@ class TrainingServiceTest {
 
         // Assert
         assertNotNull(result);
-        verify(trainingDAO).create(any(Training.class));
+        verify(trainingDAO).save(any(Training.class));
     }
 
     @Test
@@ -101,7 +102,7 @@ class TrainingServiceTest {
         LocalDate trainingDate = LocalDate.of(2026, 3, 15);
         int trainingDuration = 45;
         
-        when(trainingDAO.create(any(Training.class))).thenReturn(testTraining);
+        when(trainingDAO.save(any(Training.class))).thenReturn(testTraining);
 
         // Act
         Training result = trainingService.createTraining(testTraineeId, testTrainerId, 
@@ -109,7 +110,7 @@ class TrainingServiceTest {
 
         // Assert
         assertNotNull(result);
-        verify(trainingDAO).create(argThat(training -> 
+        verify(trainingDAO).save(argThat(training -> 
             training.getTraineeId().equals(testTraineeId) &&
             training.getTrainerId().equals(testTrainerId) &&
             training.getTrainingName().equals(trainingName) &&
@@ -184,7 +185,7 @@ class TrainingServiceTest {
     @Test
     void testCreateTraining_VerifyAllFieldsSet() {
         // Arrange
-        when(trainingDAO.create(any(Training.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        when(trainingDAO.save(any(Training.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         // Act
         Training result = trainingService.createTraining(

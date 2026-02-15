@@ -17,6 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.epam.springCoreTask.dao.TrainerDAO;
 import com.epam.springCoreTask.model.Trainer;
+import com.epam.springCoreTask.service.impl.TrainerServiceImpl;
 import com.epam.springCoreTask.util.PasswordGenerator;
 import com.epam.springCoreTask.util.UsernameGenerator;
 
@@ -33,7 +34,7 @@ class TrainerServiceTest {
     private PasswordGenerator passwordGenerator;
 
     @InjectMocks
-    private TrainerService trainerService;
+    private TrainerServiceImpl trainerService;
 
     private Trainer testTrainer;
     private UUID testId;
@@ -61,7 +62,7 @@ class TrainerServiceTest {
         when(trainerDAO.findAll()).thenReturn(existingTrainers);
         when(usernameGenerator.generateUsername(eq(firstName), eq(lastName), anyList())).thenReturn("Jane.Smith");
         when(passwordGenerator.generatePassword()).thenReturn("password123");
-        when(trainerDAO.create(any(Trainer.class))).thenReturn(testTrainer);
+        when(trainerDAO.save(any(Trainer.class))).thenReturn(testTrainer);
 
         // Act
         Trainer result = trainerService.createTrainer(firstName, lastName, specialization);
@@ -75,7 +76,7 @@ class TrainerServiceTest {
         verify(trainerDAO).findAll();
         verify(usernameGenerator).generateUsername(eq(firstName), eq(lastName), anyList());
         verify(passwordGenerator).generatePassword();
-        verify(trainerDAO).create(any(Trainer.class));
+        verify(trainerDAO).save(any(Trainer.class));
     }
 
     @Test
@@ -92,7 +93,7 @@ class TrainerServiceTest {
         when(trainerDAO.findAll()).thenReturn(existingTrainers);
         when(usernameGenerator.generateUsername(eq(firstName), eq(lastName), anyList())).thenReturn("Jane.Smith1");
         when(passwordGenerator.generatePassword()).thenReturn("password123");
-        when(trainerDAO.create(any(Trainer.class))).thenReturn(testTrainer);
+        when(trainerDAO.save(any(Trainer.class))).thenReturn(testTrainer);
 
         // Act
         Trainer result = trainerService.createTrainer(firstName, lastName, specialization);
@@ -100,13 +101,13 @@ class TrainerServiceTest {
         // Assert
         assertNotNull(result);
         verify(usernameGenerator).generateUsername(eq(firstName), eq(lastName), anyList());
-        verify(trainerDAO).create(any(Trainer.class));
+        verify(trainerDAO).save(any(Trainer.class));
     }
 
     @Test
     void testUpdateTrainer_Success() {
         // Arrange
-        when(trainerDAO.update(testTrainer)).thenReturn(testTrainer);
+        when(trainerDAO.save(testTrainer)).thenReturn(testTrainer);
 
         // Act
         Trainer result = trainerService.updateTrainer(testTrainer);
@@ -115,7 +116,7 @@ class TrainerServiceTest {
         assertNotNull(result);
         assertEquals(testTrainer.getUsername(), result.getUsername());
         assertEquals(testTrainer.getSpecialization(), result.getSpecialization());
-        verify(trainerDAO).update(testTrainer);
+        verify(trainerDAO).save(testTrainer);
     }
 
     @Test
@@ -185,7 +186,7 @@ class TrainerServiceTest {
         when(trainerDAO.findAll()).thenReturn(new ArrayList<>());
         when(usernameGenerator.generateUsername(eq(firstName), eq(lastName), anyList())).thenReturn("Mike.Johnson");
         when(passwordGenerator.generatePassword()).thenReturn("abcd123456");
-        when(trainerDAO.create(any(Trainer.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        when(trainerDAO.save(any(Trainer.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         // Act
         Trainer result = trainerService.createTrainer(firstName, lastName, specialization);

@@ -18,6 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.epam.springCoreTask.dao.TraineeDAO;
 import com.epam.springCoreTask.model.Trainee;
+import com.epam.springCoreTask.service.impl.TraineeServiceImpl;
 import com.epam.springCoreTask.util.PasswordGenerator;
 import com.epam.springCoreTask.util.UsernameGenerator;
 
@@ -34,7 +35,7 @@ class TraineeServiceTest {
     private PasswordGenerator passwordGenerator;
 
     @InjectMocks
-    private TraineeService traineeService;
+    private TraineeServiceImpl traineeService;
 
     private Trainee testTrainee;
     private UUID testId;

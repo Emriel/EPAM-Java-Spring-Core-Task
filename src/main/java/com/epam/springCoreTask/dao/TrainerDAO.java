@@ -7,9 +7,8 @@ import com.epam.springCoreTask.model.Trainer;
 
 public interface TrainerDAO {
     
-    Trainer create(Trainer trainer);
+    Trainer save(Trainer trainer);
     Trainer findById(UUID id);
-    Trainer update(Trainer trainer);
     List<Trainer> findAll();
     
 }

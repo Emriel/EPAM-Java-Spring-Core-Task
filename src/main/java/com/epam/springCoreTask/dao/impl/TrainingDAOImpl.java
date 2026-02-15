@@ -22,7 +22,7 @@ public class TrainingDAOImpl implements TrainingDAO {
     }
 
     @Override
-    public Training create(Training training) {
+    public Training save(Training training) {
         trainingStorage.put(training.getTrainingId(), training);
         return training;
     }

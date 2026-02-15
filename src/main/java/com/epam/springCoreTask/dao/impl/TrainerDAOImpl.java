@@ -22,7 +22,7 @@ public class TrainerDAOImpl implements TrainerDAO {
     }
 
     @Override
-    public Trainer create(Trainer trainer) {
+    public Trainer save(Trainer trainer) {
         trainerStorage.put(trainer.getUserId(), trainer);
         return trainer;
     }
@@ -30,12 +30,6 @@ public class TrainerDAOImpl implements TrainerDAO {
     @Override
     public Trainer findById(UUID id) {
         return trainerStorage.get(id);
-    }
-
-    @Override
-    public Trainer update(Trainer trainer) {
-        trainerStorage.put(trainer.getUserId(), trainer);
-        return trainer;
     }
 
     @Override

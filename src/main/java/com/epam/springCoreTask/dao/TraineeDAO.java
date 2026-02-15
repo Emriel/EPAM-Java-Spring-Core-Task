@@ -7,9 +7,8 @@ import com.epam.springCoreTask.model.Trainee;
 
 public interface TraineeDAO {
     
-    Trainee create(Trainee trainee);
+    Trainee save(Trainee trainee);
     Trainee findById(UUID id);
-    Trainee update(Trainee trainee);
     boolean delete(UUID id);
     List<Trainee> findAll();
     

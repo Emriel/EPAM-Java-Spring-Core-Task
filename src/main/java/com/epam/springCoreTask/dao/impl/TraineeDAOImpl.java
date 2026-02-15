@@ -22,7 +22,7 @@ public class TraineeDAOImpl implements TraineeDAO {
     }
 
     @Override
-    public Trainee create(Trainee trainee) {
+    public Trainee save(Trainee trainee) {
         traineeStorage.put(trainee.getUserId(), trainee);
         return trainee;
     }
@@ -32,11 +32,6 @@ public class TraineeDAOImpl implements TraineeDAO {
         return traineeStorage.get(id);
     }
 
-    @Override
-    public Trainee update(Trainee trainee) {
-        traineeStorage.put(trainee.getUserId(), trainee);
-        return trainee;
-    }
 
     @Override
     public boolean delete(UUID id) {

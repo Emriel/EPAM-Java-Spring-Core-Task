@@ -56,7 +56,7 @@ public class TraineeService {
         trainee.setPassword(password);
         trainee.setActive(true);
         
-        Trainee createdTrainee = traineeDAO.create(trainee);
+        Trainee createdTrainee = traineeDAO.save(trainee);
         log.info("Trainee created successfully: userId={}, username={}", createdTrainee.getUserId(), createdTrainee.getUsername());
         
         return createdTrainee;
@@ -65,7 +65,7 @@ public class TraineeService {
     public Trainee updateTrainee(Trainee trainee) {
         log.debug("Updating trainee: userId={}, username={}", trainee.getUserId(), trainee.getUsername());
         
-        Trainee updatedTrainee = traineeDAO.update(trainee);
+        Trainee updatedTrainee = traineeDAO.save(trainee);
         log.info("Trainee updated successfully: userId={}", trainee.getUserId());
         
         return updatedTrainee;

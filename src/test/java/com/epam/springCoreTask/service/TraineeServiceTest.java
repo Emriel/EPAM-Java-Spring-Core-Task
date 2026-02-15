@@ -64,7 +64,7 @@ class TraineeServiceTest {
         when(traineeDAO.findAll()).thenReturn(existingTrainees);
         when(usernameGenerator.generateUsername(eq(firstName), eq(lastName), anyList())).thenReturn("John.Doe");
         when(passwordGenerator.generatePassword()).thenReturn("password123");
-        when(traineeDAO.create(any(Trainee.class))).thenReturn(testTrainee);
+        when(traineeDAO.save(any(Trainee.class))).thenReturn(testTrainee);
 
         // Act
         Trainee result = traineeService.createTrainee(firstName, lastName, dateOfBirth, address);
@@ -77,7 +77,7 @@ class TraineeServiceTest {
         verify(traineeDAO).findAll();
         verify(usernameGenerator).generateUsername(eq(firstName), eq(lastName), anyList());
         verify(passwordGenerator).generatePassword();
-        verify(traineeDAO).create(any(Trainee.class));
+        verify(traineeDAO).save(any(Trainee.class));
     }
 
     @Test
@@ -95,7 +95,7 @@ class TraineeServiceTest {
         when(traineeDAO.findAll()).thenReturn(existingTrainees);
         when(usernameGenerator.generateUsername(eq(firstName), eq(lastName), anyList())).thenReturn("John.Doe1");
         when(passwordGenerator.generatePassword()).thenReturn("password123");
-        when(traineeDAO.create(any(Trainee.class))).thenReturn(testTrainee);
+        when(traineeDAO.save(any(Trainee.class))).thenReturn(testTrainee);
 
         // Act
         Trainee result = traineeService.createTrainee(firstName, lastName, dateOfBirth, address);
@@ -103,13 +103,13 @@ class TraineeServiceTest {
         // Assert
         assertNotNull(result);
         verify(usernameGenerator).generateUsername(eq(firstName), eq(lastName), anyList());
-        verify(traineeDAO).create(any(Trainee.class));
+        verify(traineeDAO).save(any(Trainee.class));
     }
 
     @Test
     void testUpdateTrainee_Success() {
         // Arrange
-        when(traineeDAO.update(testTrainee)).thenReturn(testTrainee);
+        when(traineeDAO.save(testTrainee)).thenReturn(testTrainee);
 
         // Act
         Trainee result = traineeService.updateTrainee(testTrainee);
@@ -117,7 +117,7 @@ class TraineeServiceTest {
         // Assert
         assertNotNull(result);
         assertEquals(testTrainee.getUsername(), result.getUsername());
-        verify(traineeDAO).update(testTrainee);
+        verify(traineeDAO).save(testTrainee);
     }
 
     @Test

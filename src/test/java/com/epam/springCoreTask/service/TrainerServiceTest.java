@@ -58,8 +58,7 @@ class TrainerServiceTest {
         String lastName = "Smith";
         String specialization = "Yoga";
 
-        List<Trainer> existingTrainers = new ArrayList<>();
-        when(trainerDAO.findAll()).thenReturn(existingTrainers);
+        when(trainerDAO.findAllUsernames()).thenReturn(List.of());
         when(usernameGenerator.generateUsername(eq(firstName), eq(lastName), anyList())).thenReturn("Jane.Smith");
         when(passwordGenerator.generatePassword()).thenReturn("password123");
         when(trainerDAO.save(any(Trainer.class))).thenReturn(testTrainer);
@@ -73,7 +72,7 @@ class TrainerServiceTest {
         assertEquals("password123", result.getPassword());
         assertEquals("Yoga", result.getSpecialization());
         assertTrue(result.isActive());
-        verify(trainerDAO).findAll();
+        verify(trainerDAO).findAllUsernames();
         verify(usernameGenerator).generateUsername(eq(firstName), eq(lastName), anyList());
         verify(passwordGenerator).generatePassword();
         verify(trainerDAO).save(any(Trainer.class));
@@ -86,11 +85,7 @@ class TrainerServiceTest {
         String lastName = "Smith";
         String specialization = "Yoga";
 
-        Trainer existingTrainer = new Trainer();
-        existingTrainer.setUsername("Jane.Smith");
-        List<Trainer> existingTrainers = List.of(existingTrainer);
-
-        when(trainerDAO.findAll()).thenReturn(existingTrainers);
+        when(trainerDAO.findAllUsernames()).thenReturn(List.of("Jane.Smith"));
         when(usernameGenerator.generateUsername(eq(firstName), eq(lastName), anyList())).thenReturn("Jane.Smith1");
         when(passwordGenerator.generatePassword()).thenReturn("password123");
         when(trainerDAO.save(any(Trainer.class))).thenReturn(testTrainer);
@@ -183,7 +178,7 @@ class TrainerServiceTest {
         String lastName = "Johnson";
         String specialization = "Boxing";
 
-        when(trainerDAO.findAll()).thenReturn(new ArrayList<>());
+        when(trainerDAO.findAllUsernames()).thenReturn(List.of());
         when(usernameGenerator.generateUsername(eq(firstName), eq(lastName), anyList())).thenReturn("Mike.Johnson");
         when(passwordGenerator.generatePassword()).thenReturn("abcd123456");
         when(trainerDAO.save(any(Trainer.class))).thenAnswer(invocation -> invocation.getArgument(0));

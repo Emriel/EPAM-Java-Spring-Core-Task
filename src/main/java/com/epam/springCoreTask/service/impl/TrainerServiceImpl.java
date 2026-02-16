@@ -41,9 +41,7 @@ public class TrainerServiceImpl implements TrainerService {
     public Trainer createTrainer(String firstName, String lastName, String specialization) {
         log.debug("Creating trainer: {} {}, specialization: {}", firstName, lastName, specialization);
 
-        List<String> existingUsernames = trainerDAO.findAll().stream()
-                .map(Trainer::getUsername)
-                .toList();
+        List<String> existingUsernames = trainerDAO.findAllUsernames();
 
         String username = usernameGenerator.generateUsername(firstName, lastName, existingUsernames);
         String password = passwordGenerator.generatePassword();

@@ -41,9 +41,7 @@ public class TraineeServiceImpl implements TraineeService {
     public Trainee createTrainee(String firstName, String lastName, java.time.LocalDate dateOfBirth, String address) {
         log.debug("Creating trainee: {} {}, dateOfBirth: {}, address: {}", firstName, lastName, dateOfBirth, address);
 
-        List<String> existingUsernames = traineeDAO.findAll().stream()
-                .map(Trainee::getUsername)
-                .toList();
+        List<String> existingUsernames = traineeDAO.findAllUsernames();
 
         String username = usernameGenerator.generateUsername(firstName, lastName, existingUsernames);
         String password = passwordGenerator.generatePassword();

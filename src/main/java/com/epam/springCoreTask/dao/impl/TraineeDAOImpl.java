@@ -13,7 +13,7 @@ import com.epam.springCoreTask.model.Trainee;
 
 @Repository
 public class TraineeDAOImpl implements TraineeDAO {
-    
+
     private ConcurrentHashMap<UUID, Trainee> traineeStorage;
 
     @Autowired
@@ -32,7 +32,6 @@ public class TraineeDAOImpl implements TraineeDAO {
         return traineeStorage.get(id);
     }
 
-
     @Override
     public boolean delete(UUID id) {
         return traineeStorage.remove(id) != null;
@@ -41,5 +40,12 @@ public class TraineeDAOImpl implements TraineeDAO {
     @Override
     public List<Trainee> findAll() {
         return new ArrayList<>(traineeStorage.values());
+    }
+
+    @Override
+    public List<String> findAllUsernames() {
+        return traineeStorage.values().stream()
+                .map(Trainee::getUsername)
+                .toList();
     }
 }

@@ -61,8 +61,7 @@ class TraineeServiceTest {
         LocalDate dateOfBirth = LocalDate.of(1990, 1, 1);
         String address = "123 Main St";
 
-        List<Trainee> existingTrainees = new ArrayList<>();
-        when(traineeDAO.findAll()).thenReturn(existingTrainees);
+        when(traineeDAO.findAllUsernames()).thenReturn(List.of());
         when(usernameGenerator.generateUsername(eq(firstName), eq(lastName), anyList())).thenReturn("John.Doe");
         when(passwordGenerator.generatePassword()).thenReturn("password123");
         when(traineeDAO.save(any(Trainee.class))).thenReturn(testTrainee);
@@ -75,7 +74,7 @@ class TraineeServiceTest {
         assertEquals("John.Doe", result.getUsername());
         assertEquals("password123", result.getPassword());
         assertTrue(result.isActive());
-        verify(traineeDAO).findAll();
+        verify(traineeDAO).findAllUsernames();
         verify(usernameGenerator).generateUsername(eq(firstName), eq(lastName), anyList());
         verify(passwordGenerator).generatePassword();
         verify(traineeDAO).save(any(Trainee.class));
@@ -89,11 +88,7 @@ class TraineeServiceTest {
         LocalDate dateOfBirth = LocalDate.of(1990, 1, 1);
         String address = "123 Main St";
 
-        Trainee existingTrainee = new Trainee();
-        existingTrainee.setUsername("John.Doe");
-        List<Trainee> existingTrainees = List.of(existingTrainee);
-
-        when(traineeDAO.findAll()).thenReturn(existingTrainees);
+        when(traineeDAO.findAllUsernames()).thenReturn(List.of("John.Doe"));
         when(usernameGenerator.generateUsername(eq(firstName), eq(lastName), anyList())).thenReturn("John.Doe1");
         when(passwordGenerator.generatePassword()).thenReturn("password123");
         when(traineeDAO.save(any(Trainee.class))).thenReturn(testTrainee);

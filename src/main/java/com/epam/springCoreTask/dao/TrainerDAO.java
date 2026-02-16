@@ -13,4 +13,6 @@ public interface TrainerDAO {
 
     List<Trainer> findAll();
 
+    List<String> findAllUsernames();
+
 }

@@ -13,8 +13,8 @@ import com.epam.springCoreTask.model.Trainer;
 
 @Repository
 public class TrainerDAOImpl implements TrainerDAO {
-    
-    private ConcurrentHashMap<UUID,Trainer> trainerStorage;
+
+    private ConcurrentHashMap<UUID, Trainer> trainerStorage;
 
     @Autowired
     public void setTrainerStorage(ConcurrentHashMap<UUID, Trainer> trainerStorage) {
@@ -35,5 +35,12 @@ public class TrainerDAOImpl implements TrainerDAO {
     @Override
     public List<Trainer> findAll() {
         return new ArrayList<>(trainerStorage.values());
+    }
+
+    @Override
+    public List<String> findAllUsernames() {
+        return trainerStorage.values().stream()
+                .map(Trainer::getUsername)
+                .toList();
     }
 }

@@ -15,4 +15,6 @@ public interface TraineeDAO {
 
     List<Trainee> findAll();
 
+    List<String> findAllUsernames();
+
 }

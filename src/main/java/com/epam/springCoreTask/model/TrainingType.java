@@ -2,27 +2,27 @@ package com.epam.springCoreTask.model;
 
 public class TrainingType {
 
-    private String trainingTypeName;
+    private String name;
 
     public TrainingType() {
     }
 
     public TrainingType(String trainingTypeName) {
-        this.trainingTypeName = trainingTypeName;
+        this.name = trainingTypeName;
     }
 
-    public String getTrainingTypeName() {
-        return trainingTypeName;
+    public String getName() {
+        return name;
     }
 
-    public void setTrainingTypeName(String trainingTypeName) {
-        this.trainingTypeName = trainingTypeName;
+    public void setName(String trainingTypeName) {
+        this.name = trainingTypeName;
     }
 
     @Override
     public String toString() {
         return "TrainingType{" +
-                "trainingTypeName='" + trainingTypeName + '\'' +
+                "trainingTypeName='" + name + '\'' +
                 '}';
     }
 }

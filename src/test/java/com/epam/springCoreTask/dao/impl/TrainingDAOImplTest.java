@@ -171,7 +171,7 @@ class TrainingDAOImplTest {
         Training found = trainingDAO.findById(training2.getTrainingId());
 
         assertEquals("Zumba", found.getTrainingName(), "Should find correct training");
-        assertEquals("Dance", found.getTrainingType().getTrainingTypeName(),
+        assertEquals("Dance", found.getTrainingType().getName(),
                 "Should have correct training type");
     }
 }

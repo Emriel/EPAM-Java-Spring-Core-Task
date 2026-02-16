@@ -43,7 +43,7 @@ class TrainingServiceTest {
         testTrainerId = UUID.randomUUID();
 
         testTrainingType = new TrainingType();
-        testTrainingType.setTrainingTypeName("Cardio");
+        testTrainingType.setName("Cardio");
 
         testTraining = new Training();
         testTraining.setTrainingId(testTrainingId);

@@ -60,7 +60,7 @@ class TraineeServiceTest {
         String lastName = "Doe";
         LocalDate dateOfBirth = LocalDate.of(1990, 1, 1);
         String address = "123 Main St";
-        
+
         List<Trainee> existingTrainees = new ArrayList<>();
         when(traineeDAO.findAll()).thenReturn(existingTrainees);
         when(usernameGenerator.generateUsername(eq(firstName), eq(lastName), anyList())).thenReturn("John.Doe");
@@ -88,11 +88,11 @@ class TraineeServiceTest {
         String lastName = "Doe";
         LocalDate dateOfBirth = LocalDate.of(1990, 1, 1);
         String address = "123 Main St";
-        
+
         Trainee existingTrainee = new Trainee();
         existingTrainee.setUsername("John.Doe");
         List<Trainee> existingTrainees = List.of(existingTrainee);
-        
+
         when(traineeDAO.findAll()).thenReturn(existingTrainees);
         when(usernameGenerator.generateUsername(eq(firstName), eq(lastName), anyList())).thenReturn("John.Doe1");
         when(passwordGenerator.generatePassword()).thenReturn("password123");

@@ -55,31 +55,29 @@ public class StorageInitializer implements InitializingBean {
         this.passwordGenerator = passwordGenerator;
     }
 
-
     @Override
     public void afterPropertiesSet() throws Exception {
         log.info("Initializing storage from file: {}", initFilePath);
         loadDataFromFile();
-        log.info("Storage initialization complete. Trainers: {}, Trainees: {}", 
+        log.info("Storage initialization complete. Trainers: {}, Trainees: {}",
                 trainerStorage.size(), traineeStorage.size());
     }
 
-
     private void loadDataFromFile() throws Exception {
         ClassPathResource resource = new ClassPathResource(initFilePath);
-        
+
         if (!resource.exists()) {
             log.warn("Initialization file not found: {}", initFilePath);
             return;
         }
 
         try (InputStream inputStream = resource.getInputStream();
-             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
-            
+                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
+
             String line;
             while ((line = reader.readLine()) != null) {
                 line = line.trim();
-                
+
                 if (line.isEmpty() || line.startsWith("#")) {
                     continue;
                 }
@@ -91,13 +89,13 @@ public class StorageInitializer implements InitializingBean {
 
     private void processLine(String line) {
         String[] parts = line.split("\\|");
-        
+
         if (parts.length == 0) {
             return;
         }
 
         String type = parts[0].trim();
-        
+
         try {
             switch (type) {
                 case "TRAINER":

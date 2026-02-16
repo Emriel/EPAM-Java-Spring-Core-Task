@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import com.epam.springCoreTask.util.UsernameGenerator;
 
 @Component
-public class UsernameGeneratorImpl implements UsernameGenerator{
+public class UsernameGeneratorImpl implements UsernameGenerator {
 
     public String generateUsername(String firstName, String lastName, List<String> existingUsernames) {
 

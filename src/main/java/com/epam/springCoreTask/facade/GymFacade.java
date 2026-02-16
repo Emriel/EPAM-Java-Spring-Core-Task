@@ -26,31 +26,31 @@ public class GymFacade {
     private final TrainerService trainerService;
     private final TrainingService trainingService;
 
-    public GymFacade(TraineeService traineeService, 
-                     TrainerService trainerService,
-                     TrainingService trainingService) {
+    public GymFacade(TraineeService traineeService,
+            TrainerService trainerService,
+            TrainingService trainingService) {
         this.traineeService = traineeService;
         this.trainerService = trainerService;
         this.trainingService = trainingService;
     }
 
-    public Trainee createTraineeProfile(String firstName, String lastName, 
-                                       LocalDate dateOfBirth, String address) {
+    public Trainee createTraineeProfile(String firstName, String lastName,
+            LocalDate dateOfBirth, String address) {
         log.info("Creating trainee profile through facade: {} {}", firstName, lastName);
         return traineeService.createTrainee(firstName, lastName, dateOfBirth, address);
     }
 
-    public Trainer createTrainerProfile(String firstName, String lastName, 
-                                       String specialization) {
+    public Trainer createTrainerProfile(String firstName, String lastName,
+            String specialization) {
         log.info("Creating trainer profile through facade: {} {}", firstName, lastName);
         return trainerService.createTrainer(firstName, lastName, specialization);
     }
 
-    public Training createTrainingSession(UUID traineeId, UUID trainerId, 
-                                         String trainingName, TrainingType trainingType, 
-                                         LocalDate trainingDate, int trainingDuration) {
+    public Training createTrainingSession(UUID traineeId, UUID trainerId,
+            String trainingName, TrainingType trainingType,
+            LocalDate trainingDate, int trainingDuration) {
         log.info("Creating training session through facade: {}", trainingName);
-        
+
         Trainee trainee = traineeService.getTraineeById(traineeId);
         if (trainee == null) {
             log.error("Trainee not found with id: {}", traineeId);
@@ -64,13 +64,13 @@ public class GymFacade {
         }
 
         log.debug("Both trainee and trainer validated, creating training session");
-        return trainingService.createTraining(traineeId, trainerId, trainingName, 
-                                             trainingType, trainingDate, trainingDuration);
+        return trainingService.createTraining(traineeId, trainerId, trainingName,
+                trainingType, trainingDate, trainingDuration);
     }
 
     public List<Training> getTraineeTrainings(UUID traineeId) {
         log.info("Fetching all trainings for trainee: {}", traineeId);
-        
+
         List<Training> allTrainings = trainingService.getAllTrainings();
         return allTrainings.stream()
                 .filter(training -> training.getTraineeId().equals(traineeId))
@@ -79,7 +79,7 @@ public class GymFacade {
 
     public List<Training> getTrainerTrainings(UUID trainerId) {
         log.info("Fetching all trainings for trainer: {}", trainerId);
-        
+
         List<Training> allTrainings = trainingService.getAllTrainings();
         return allTrainings.stream()
                 .filter(training -> training.getTrainerId().equals(trainerId))
@@ -98,7 +98,7 @@ public class GymFacade {
 
     public void deleteTraineeProfile(UUID traineeId) {
         log.info("Deleting trainee profile and associated trainings: {}", traineeId);
-        
+
         Trainee trainee = traineeService.getTraineeById(traineeId);
         if (trainee == null) {
             log.warn("Trainee not found for deletion: {}", traineeId);

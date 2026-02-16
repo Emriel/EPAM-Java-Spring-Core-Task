@@ -1,12 +1,12 @@
 package com.epam.springCoreTask.model;
 
 public class TrainingType {
-    
+
     private String trainingTypeName;
 
     public TrainingType() {
     }
-    
+
     public TrainingType(String trainingTypeName) {
         this.trainingTypeName = trainingTypeName;
     }

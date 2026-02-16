@@ -15,7 +15,7 @@ import com.epam.springCoreTask.util.PasswordGenerator;
 import com.epam.springCoreTask.util.UsernameGenerator;
 
 @Service
-public class TrainerServiceImpl implements TrainerService{
+public class TrainerServiceImpl implements TrainerService {
 
     private static final Logger log = LoggerFactory.getLogger(TrainerServiceImpl.class);
 
@@ -34,20 +34,20 @@ public class TrainerServiceImpl implements TrainerService{
     }
 
     @Autowired
-    public void setPasswordGenerator(PasswordGenerator passwordGenerator) { 
+    public void setPasswordGenerator(PasswordGenerator passwordGenerator) {
         this.passwordGenerator = passwordGenerator;
     }
 
     public Trainer createTrainer(String firstName, String lastName, String specialization) {
         log.debug("Creating trainer: {} {}, specialization: {}", firstName, lastName, specialization);
-        
+
         List<String> existingUsernames = trainerDAO.findAll().stream()
                 .map(Trainer::getUsername)
                 .toList();
-        
+
         String username = usernameGenerator.generateUsername(firstName, lastName, existingUsernames);
         String password = passwordGenerator.generatePassword();
-        
+
         Trainer trainer = new Trainer();
         trainer.setFirstName(firstName);
         trainer.setLastName(lastName);
@@ -55,42 +55,42 @@ public class TrainerServiceImpl implements TrainerService{
         trainer.setUsername(username);
         trainer.setPassword(password);
         trainer.setActive(true);
-        
+
         Trainer createdTrainer = trainerDAO.save(trainer);
         log.info("Trainer created successfully: userId={}, username={}", createdTrainer.getUserId(),
-                    createdTrainer.getUsername());
-        
+                createdTrainer.getUsername());
+
         return createdTrainer;
     }
 
     public Trainer updateTrainer(Trainer trainer) {
         log.debug("Updating trainer: userId={}, username={}", trainer.getUserId(), trainer.getUsername());
-        
+
         Trainer updatedTrainer = trainerDAO.save(trainer);
         log.info("Trainer updated successfully: userId={}", trainer.getUserId());
-        
+
         return updatedTrainer;
     }
 
     public Trainer getTrainerById(UUID id) {
         log.debug("Fetching trainer by id: {}", id);
-        
+
         Trainer trainer = trainerDAO.findById(id);
         if (trainer != null) {
             log.debug("Trainer found: username={}", trainer.getUsername());
         } else {
             log.warn("Trainer not found with id: {}", id);
         }
-        
+
         return trainer;
     }
 
     public List<Trainer> getAllTrainers() {
         log.debug("Fetching all trainers");
-        
+
         List<Trainer> trainers = trainerDAO.findAll();
         log.debug("Found {} trainers", trainers.size());
-        
+
         return trainers;
     }
 }

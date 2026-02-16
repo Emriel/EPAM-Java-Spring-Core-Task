@@ -12,19 +12,19 @@ import com.epam.springCoreTask.model.Training;
 
 @Configuration
 public class StorageConfig {
-    
+
     @Bean
-    ConcurrentHashMap <UUID, Trainer> trainerStorage() {
+    ConcurrentHashMap<UUID, Trainer> trainerStorage() {
         return new ConcurrentHashMap<>();
     }
 
     @Bean
-    ConcurrentHashMap <UUID, Trainee> traineeStorage() {
+    ConcurrentHashMap<UUID, Trainee> traineeStorage() {
         return new ConcurrentHashMap<>();
     }
 
     @Bean
-    ConcurrentHashMap <UUID, Training> trainingStorage() {
+    ConcurrentHashMap<UUID, Training> trainingStorage() {
         return new ConcurrentHashMap<>();
     }
 }

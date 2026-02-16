@@ -41,10 +41,10 @@ class TrainingServiceTest {
         testTrainingId = UUID.randomUUID();
         testTraineeId = UUID.randomUUID();
         testTrainerId = UUID.randomUUID();
-        
+
         testTrainingType = new TrainingType();
         testTrainingType.setTrainingTypeName("Cardio");
-        
+
         testTraining = new Training();
         testTraining.setTrainingId(testTrainingId);
         testTraining.setTraineeId(testTraineeId);
@@ -61,11 +61,11 @@ class TrainingServiceTest {
         String trainingName = "Morning Workout";
         LocalDate trainingDate = LocalDate.now();
         int trainingDuration = 60;
-        
+
         when(trainingDAO.save(any(Training.class))).thenReturn(testTraining);
 
         // Act
-        Training result = trainingService.createTraining(testTraineeId, testTrainerId, 
+        Training result = trainingService.createTraining(testTraineeId, testTrainerId,
                 trainingName, testTrainingType, trainingDate, trainingDuration);
 
         // Assert
@@ -87,7 +87,7 @@ class TrainingServiceTest {
         });
 
         // Act
-        Training result = trainingService.createTraining(testTraineeId, testTrainerId, 
+        Training result = trainingService.createTraining(testTraineeId, testTrainerId,
                 "Test Training", testTrainingType, LocalDate.now(), 30);
 
         // Assert
@@ -101,23 +101,21 @@ class TrainingServiceTest {
         String trainingName = "Evening Run";
         LocalDate trainingDate = LocalDate.of(2026, 3, 15);
         int trainingDuration = 45;
-        
+
         when(trainingDAO.save(any(Training.class))).thenReturn(testTraining);
 
         // Act
-        Training result = trainingService.createTraining(testTraineeId, testTrainerId, 
+        Training result = trainingService.createTraining(testTraineeId, testTrainerId,
                 trainingName, testTrainingType, trainingDate, trainingDuration);
 
         // Assert
         assertNotNull(result);
-        verify(trainingDAO).save(argThat(training -> 
-            training.getTraineeId().equals(testTraineeId) &&
-            training.getTrainerId().equals(testTrainerId) &&
-            training.getTrainingName().equals(trainingName) &&
-            training.getTrainingType().equals(testTrainingType) &&
-            training.getTrainingDate().equals(trainingDate) &&
-            training.getTrainingDuration() == trainingDuration
-        ));
+        verify(trainingDAO).save(argThat(training -> training.getTraineeId().equals(testTraineeId) &&
+                training.getTrainerId().equals(testTrainerId) &&
+                training.getTrainingName().equals(trainingName) &&
+                training.getTrainingType().equals(testTrainingType) &&
+                training.getTrainingDate().equals(trainingDate) &&
+                training.getTrainingDuration() == trainingDuration));
     }
 
     @Test
@@ -155,7 +153,7 @@ class TrainingServiceTest {
         Training training2 = new Training();
         training2.setTrainingId(UUID.randomUUID());
         training2.setTrainingName("Afternoon Session");
-        
+
         List<Training> trainings = List.of(testTraining, training2);
         when(trainingDAO.findAll()).thenReturn(trainings);
 
@@ -189,13 +187,12 @@ class TrainingServiceTest {
 
         // Act
         Training result = trainingService.createTraining(
-            testTraineeId, 
-            testTrainerId, 
-            "Test Training",
-            testTrainingType,
-            LocalDate.of(2026, 2, 10),
-            90
-        );
+                testTraineeId,
+                testTrainerId,
+                "Test Training",
+                testTrainingType,
+                LocalDate.of(2026, 2, 10),
+                90);
 
         // Assert
         assertNotNull(result.getTrainingId());

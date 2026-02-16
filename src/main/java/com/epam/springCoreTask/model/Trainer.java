@@ -2,8 +2,8 @@ package com.epam.springCoreTask.model;
 
 import java.util.UUID;
 
-public class Trainer extends User{
-    
+public class Trainer extends User {
+
     private UUID userId;
     private String specialization;
 
@@ -12,8 +12,8 @@ public class Trainer extends User{
         this.userId = UUID.randomUUID();
     }
 
-    public Trainer(String firstName, String lastName, String username, String password, boolean isActive, 
-                    String specialization) {
+    public Trainer(String firstName, String lastName, String username, String password, boolean isActive,
+            String specialization) {
         super(firstName, lastName, username, password, isActive);
         this.userId = UUID.randomUUID();
         this.specialization = specialization;
@@ -22,6 +22,7 @@ public class Trainer extends User{
     public UUID getUserId() {
         return userId;
     }
+
     public String getSpecialization() {
         return specialization;
     }

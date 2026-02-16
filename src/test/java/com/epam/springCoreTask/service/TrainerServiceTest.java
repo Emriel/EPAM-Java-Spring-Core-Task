@@ -57,7 +57,7 @@ class TrainerServiceTest {
         String firstName = "Jane";
         String lastName = "Smith";
         String specialization = "Yoga";
-        
+
         List<Trainer> existingTrainers = new ArrayList<>();
         when(trainerDAO.findAll()).thenReturn(existingTrainers);
         when(usernameGenerator.generateUsername(eq(firstName), eq(lastName), anyList())).thenReturn("Jane.Smith");
@@ -85,11 +85,11 @@ class TrainerServiceTest {
         String firstName = "Jane";
         String lastName = "Smith";
         String specialization = "Yoga";
-        
+
         Trainer existingTrainer = new Trainer();
         existingTrainer.setUsername("Jane.Smith");
         List<Trainer> existingTrainers = List.of(existingTrainer);
-        
+
         when(trainerDAO.findAll()).thenReturn(existingTrainers);
         when(usernameGenerator.generateUsername(eq(firstName), eq(lastName), anyList())).thenReturn("Jane.Smith1");
         when(passwordGenerator.generatePassword()).thenReturn("password123");
@@ -182,7 +182,7 @@ class TrainerServiceTest {
         String firstName = "Mike";
         String lastName = "Johnson";
         String specialization = "Boxing";
-        
+
         when(trainerDAO.findAll()).thenReturn(new ArrayList<>());
         when(usernameGenerator.generateUsername(eq(firstName), eq(lastName), anyList())).thenReturn("Mike.Johnson");
         when(passwordGenerator.generatePassword()).thenReturn("abcd123456");

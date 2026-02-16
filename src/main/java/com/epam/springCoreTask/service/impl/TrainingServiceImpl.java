@@ -41,7 +41,8 @@ public class TrainingServiceImpl implements TrainingService{
         training.setTrainingDuration(trainingDuration);
         
         Training createdTraining = trainingDAO.save(training);
-        log.info("Training created successfully: trainingId={}, name={}", createdTraining.getTrainingId(), trainingName);
+        log.info("Training created successfully: trainingId={}, name={}",
+                    createdTraining.getTrainingId(), trainingName);
         
         return createdTraining;
     }

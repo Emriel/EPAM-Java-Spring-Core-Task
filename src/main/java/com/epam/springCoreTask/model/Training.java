@@ -16,7 +16,8 @@ public class Training {
     public Training() {
     }
 
-    public Training(UUID traineeId, UUID trainerId, UUID trainingId, String trainingName, TrainingType trainingType, LocalDate trainingDate, int trainingDuration) {
+    public Training(UUID traineeId, UUID trainerId, UUID trainingId, String trainingName, TrainingType trainingType,
+                    LocalDate trainingDate, int trainingDuration) {
         this.traineeId = traineeId;
         this.trainerId = trainerId;
         this.trainingId = trainingId;

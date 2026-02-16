@@ -58,7 +58,8 @@ public class TraineeServiceImpl implements TraineeService {
         trainee.setActive(true);
         
         Trainee createdTrainee = traineeDAO.save(trainee);
-        log.info("Trainee created successfully: userId={}, username={}", createdTrainee.getUserId(), createdTrainee.getUsername());
+        log.info("Trainee created successfully: userId={}, username={}", createdTrainee.getUserId(),
+                    createdTrainee.getUsername());
         
         return createdTrainee;
     }

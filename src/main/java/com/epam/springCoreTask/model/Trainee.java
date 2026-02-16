@@ -14,7 +14,8 @@ public class Trainee extends User{
         this.userId = UUID.randomUUID();
     }
 
-    public Trainee(String firstName, String lastName, String username, String password, boolean isActive, LocalDate dateOfBirth, String address) {
+    public Trainee(String firstName, String lastName, String username, String password, boolean isActive,
+                    LocalDate dateOfBirth, String address) {
         super(firstName, lastName, username, password, isActive);
         this.userId = UUID.randomUUID();
         this.dateOfBirth = dateOfBirth;

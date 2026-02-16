@@ -12,7 +12,8 @@ public class Trainer extends User{
         this.userId = UUID.randomUUID();
     }
 
-    public Trainer(String firstName, String lastName, String username, String password, boolean isActive, String specialization) {
+    public Trainer(String firstName, String lastName, String username, String password, boolean isActive, 
+                    String specialization) {
         super(firstName, lastName, username, password, isActive);
         this.userId = UUID.randomUUID();
         this.specialization = specialization;

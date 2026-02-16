@@ -57,7 +57,8 @@ public class TrainerServiceImpl implements TrainerService{
         trainer.setActive(true);
         
         Trainer createdTrainer = trainerDAO.save(trainer);
-        log.info("Trainer created successfully: userId={}, username={}", createdTrainer.getUserId(), createdTrainer.getUsername());
+        log.info("Trainer created successfully: userId={}, username={}", createdTrainer.getUserId(),
+                    createdTrainer.getUsername());
         
         return createdTrainer;
     }

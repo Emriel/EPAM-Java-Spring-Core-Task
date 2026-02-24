@@ -4,10 +4,8 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +18,6 @@ import org.springframework.stereotype.Component;
 import com.epam.springCoreTask.model.Trainee;
 import com.epam.springCoreTask.model.Trainer;
 import com.epam.springCoreTask.util.PasswordGenerator;
-import com.epam.springCoreTask.util.UsernameGenerator;
 
 @Component
 public class StorageInitializer implements InitializingBean {
@@ -32,7 +29,6 @@ public class StorageInitializer implements InitializingBean {
 
     private ConcurrentHashMap<UUID, Trainer> trainerStorage;
     private ConcurrentHashMap<UUID, Trainee> traineeStorage;
-    private UsernameGenerator usernameGenerator;
     private PasswordGenerator passwordGenerator;
 
     @Autowired
@@ -45,10 +41,6 @@ public class StorageInitializer implements InitializingBean {
         this.traineeStorage = traineeStorage;
     }
 
-    @Autowired
-    public void setUsernameGenerator(UsernameGenerator usernameGenerator) {
-        this.usernameGenerator = usernameGenerator;
-    }
 
     @Autowired
     public void setPasswordGenerator(PasswordGenerator passwordGenerator) {
@@ -117,11 +109,36 @@ public class StorageInitializer implements InitializingBean {
     }
 
     private void createTrainer(String firstName, String lastName, String specialization) {
-        List<String> existingUsernames = trainerStorage.values().stream()
-                .map(Trainer::getUsername)
-                .collect(Collectors.toList());
+        boolean isDuplicate = false;
+        for (Trainer eachTrainer : trainerStorage.values()) {
+            if (eachTrainer.getFirstName().equals(firstName) && eachTrainer.getLastName().equals(lastName)) {
+                isDuplicate = true;
+                break;
+            }
+        }
 
-        String username = usernameGenerator.generateUsername(firstName, lastName, existingUsernames);
+        if (isDuplicate) {
+            log.warn("Duplicate trainer found in file: {} {}, skipping", firstName, lastName);
+            return;
+        }
+
+        String baseUsername = firstName + "." + lastName;
+        String username = baseUsername;
+        int counter = 1;
+        
+        boolean usernameExists = true;
+        while (usernameExists) {
+            usernameExists = false;
+            for (Trainer eachTrainer : trainerStorage.values()) {
+                if (eachTrainer.getUsername().equals(username)) {
+                    usernameExists = true;
+                    username = baseUsername + counter;
+                    counter++;
+                    break;
+                }
+            }
+        }
+
         String password = passwordGenerator.generatePassword();
 
         Trainer trainer = new Trainer();
@@ -137,11 +154,23 @@ public class StorageInitializer implements InitializingBean {
     }
 
     private void createTrainee(String firstName, String lastName, String dateOfBirthStr, String address) {
-        List<String> existingUsernames = traineeStorage.values().stream()
-                .map(Trainee::getUsername)
-                .collect(Collectors.toList());
+        String baseUsername = firstName + "." + lastName;
+        String username = baseUsername;
+        int counter = 1;
+        
+        boolean usernameExists = true;
+        while (usernameExists) {
+            usernameExists = false;
+            for (Trainee eachTrainee : traineeStorage.values()) {
+                if (eachTrainee.getUsername().equals(username)) {
+                    usernameExists = true;
+                    username = baseUsername + counter;
+                    counter++;
+                    break;
+                }
+            }
+        }
 
-        String username = usernameGenerator.generateUsername(firstName, lastName, existingUsernames);
         String password = passwordGenerator.generatePassword();
 
         LocalDate dateOfBirth = LocalDate.parse(dateOfBirthStr);

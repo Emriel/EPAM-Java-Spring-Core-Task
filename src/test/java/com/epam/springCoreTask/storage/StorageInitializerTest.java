@@ -3,7 +3,6 @@ package com.epam.springCoreTask.storage;
 import com.epam.springCoreTask.model.Trainee;
 import com.epam.springCoreTask.model.Trainer;
 import com.epam.springCoreTask.util.PasswordGenerator;
-import com.epam.springCoreTask.util.UsernameGenerator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,8 +16,6 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyList;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -27,9 +24,6 @@ class StorageInitializerTest {
     private StorageInitializer storageInitializer;
     private ConcurrentHashMap<UUID, Trainer> trainerStorage;
     private ConcurrentHashMap<UUID, Trainee> traineeStorage;
-
-    @Mock
-    private UsernameGenerator usernameGenerator;
 
     @Mock
     private PasswordGenerator passwordGenerator;
@@ -42,7 +36,6 @@ class StorageInitializerTest {
         
         storageInitializer.setTrainerStorage(trainerStorage);
         storageInitializer.setTraineeStorage(traineeStorage);
-        storageInitializer.setUsernameGenerator(usernameGenerator);
         storageInitializer.setPasswordGenerator(passwordGenerator);
     }
 
@@ -51,12 +44,6 @@ class StorageInitializerTest {
         // Setup
         ReflectionTestUtils.setField(storageInitializer, "initFilePath", "storage-init.txt");
         
-        when(usernameGenerator.generateUsername(anyString(), anyString(), anyList()))
-                .thenAnswer(invocation -> {
-                    String firstName = invocation.getArgument(0);
-                    String lastName = invocation.getArgument(1);
-                    return firstName + "." + lastName;
-                });
         when(passwordGenerator.generatePassword()).thenReturn("testPassword123");
 
         // Execute
@@ -85,8 +72,7 @@ class StorageInitializerTest {
         assertEquals("testPassword123", aliceWilliams.getPassword());
         assertTrue(aliceWilliams.isActive());
 
-        // Verify username and password generators were called
-        verify(usernameGenerator, times(6)).generateUsername(anyString(), anyString(), anyList());
+        // Verify password generator was called
         verify(passwordGenerator, times(6)).generatePassword();
     }
 
@@ -106,8 +92,6 @@ class StorageInitializerTest {
     void testAfterPropertiesSet_HandlesEmptyLines() throws Exception {
         ReflectionTestUtils.setField(storageInitializer, "initFilePath", "storage-init.txt");
         
-        when(usernameGenerator.generateUsername(anyString(), anyString(), anyList()))
-                .thenAnswer(invocation -> invocation.getArgument(0) + "." + invocation.getArgument(1));
         when(passwordGenerator.generatePassword()).thenReturn("password");
 
         storageInitializer.afterPropertiesSet();
@@ -121,20 +105,6 @@ class StorageInitializerTest {
     void testAfterPropertiesSet_GeneratesUniqueUsernames() throws Exception {
         ReflectionTestUtils.setField(storageInitializer, "initFilePath", "storage-init.txt");
         
-        when(usernameGenerator.generateUsername(anyString(), anyString(), anyList()))
-                .thenAnswer(invocation -> {
-                    String firstName = invocation.getArgument(0);
-                    String lastName = invocation.getArgument(1);
-                    List<String> existingUsernames = invocation.getArgument(2);
-                    String base = firstName + "." + lastName;
-                    int counter = 0;
-                    String username = base;
-                    while (existingUsernames.contains(username)) {
-                        counter++;
-                        username = base + counter;
-                    }
-                    return username;
-                });
         when(passwordGenerator.generatePassword()).thenReturn("password");
 
         storageInitializer.afterPropertiesSet();
@@ -155,32 +125,33 @@ class StorageInitializerTest {
     }
 
     @Test
-    void testAfterPropertiesSet_PassesExistingUsernamesCorrectly() throws Exception {
+    void testAfterPropertiesSet_HandlesUsernameCollisions() throws Exception {
         ReflectionTestUtils.setField(storageInitializer, "initFilePath", "storage-init.txt");
         
-        when(usernameGenerator.generateUsername(anyString(), anyString(), anyList()))
-                .thenAnswer(invocation -> invocation.getArgument(0) + "." + invocation.getArgument(1));
         when(passwordGenerator.generatePassword()).thenReturn("password");
 
         storageInitializer.afterPropertiesSet();
 
-        // Verify that generateUsername was called with existing usernames list
-        verify(usernameGenerator, atLeastOnce()).generateUsername(anyString(), anyString(), anyList());
+        // Verify that all usernames are unique even if there are potential collisions
+        List<String> allUsernames = trainerStorage.values().stream()
+                .map(Trainer::getUsername)
+                .toList();
+        allUsernames.addAll(traineeStorage.values().stream()
+                .map(Trainee::getUsername)
+                .toList());
         
-        // The list passed should grow with each trainer/trainee added
-        // First trainer gets empty list, second gets list with 1 username, etc.
+        assertEquals(allUsernames.size(), allUsernames.stream().distinct().count(),
+                "All usernames should be unique");
     }
 
     @Test
     void testSetters_WorkCorrectly() {
         ConcurrentHashMap<UUID, Trainer> newTrainerStorage = new ConcurrentHashMap<>();
         ConcurrentHashMap<UUID, Trainee> newTraineeStorage = new ConcurrentHashMap<>();
-        UsernameGenerator newUsernameGen = mock(UsernameGenerator.class);
         PasswordGenerator newPasswordGen = mock(PasswordGenerator.class);
 
         storageInitializer.setTrainerStorage(newTrainerStorage);
         storageInitializer.setTraineeStorage(newTraineeStorage);
-        storageInitializer.setUsernameGenerator(newUsernameGen);
         storageInitializer.setPasswordGenerator(newPasswordGen);
 
         // Verify by checking if fields are set (using reflection or by testing behavior)

@@ -133,9 +133,9 @@ class StorageInitializerTest {
         storageInitializer.afterPropertiesSet();
 
         // Verify that all usernames are unique even if there are potential collisions
-        List<String> allUsernames = trainerStorage.values().stream()
+        List<String> allUsernames = new java.util.ArrayList<>(trainerStorage.values().stream()
                 .map(Trainer::getUsername)
-                .toList();
+                .toList());
         allUsernames.addAll(traineeStorage.values().stream()
                 .map(Trainee::getUsername)
                 .toList());

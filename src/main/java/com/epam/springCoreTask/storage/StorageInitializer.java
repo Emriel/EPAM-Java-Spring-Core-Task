@@ -109,19 +109,6 @@ public class StorageInitializer implements InitializingBean {
     }
 
     private void createTrainer(String firstName, String lastName, String specialization) {
-        boolean isDuplicate = false;
-        for (Trainer eachTrainer : trainerStorage.values()) {
-            if (eachTrainer.getFirstName().equals(firstName) && eachTrainer.getLastName().equals(lastName)) {
-                isDuplicate = true;
-                break;
-            }
-        }
-
-        if (isDuplicate) {
-            log.warn("Duplicate trainer found in file: {} {}, skipping", firstName, lastName);
-            return;
-        }
-
         String baseUsername = firstName + "." + lastName;
         String username = baseUsername;
         int counter = 1;

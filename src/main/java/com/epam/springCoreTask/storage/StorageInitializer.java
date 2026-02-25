@@ -41,7 +41,6 @@ public class StorageInitializer implements InitializingBean {
         this.traineeStorage = traineeStorage;
     }
 
-
     @Autowired
     public void setPasswordGenerator(PasswordGenerator passwordGenerator) {
         this.passwordGenerator = passwordGenerator;
@@ -112,7 +111,7 @@ public class StorageInitializer implements InitializingBean {
         String baseUsername = firstName + "." + lastName;
         String username = baseUsername;
         int counter = 1;
-        
+
         boolean usernameExists = true;
         while (usernameExists) {
             usernameExists = false;
@@ -144,7 +143,7 @@ public class StorageInitializer implements InitializingBean {
         String baseUsername = firstName + "." + lastName;
         String username = baseUsername;
         int counter = 1;
-        
+
         boolean usernameExists = true;
         while (usernameExists) {
             usernameExists = false;

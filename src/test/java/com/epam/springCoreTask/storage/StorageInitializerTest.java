@@ -33,7 +33,7 @@ class StorageInitializerTest {
         trainerStorage = new ConcurrentHashMap<>();
         traineeStorage = new ConcurrentHashMap<>();
         storageInitializer = new StorageInitializer();
-        
+
         storageInitializer.setTrainerStorage(trainerStorage);
         storageInitializer.setTraineeStorage(traineeStorage);
         storageInitializer.setPasswordGenerator(passwordGenerator);
@@ -43,7 +43,7 @@ class StorageInitializerTest {
     void testAfterPropertiesSet_LoadsDataFromValidFile() throws Exception {
         // Setup
         ReflectionTestUtils.setField(storageInitializer, "initFilePath", "storage-init.txt");
-        
+
         when(passwordGenerator.generatePassword()).thenReturn("testPassword123");
 
         // Execute
@@ -51,7 +51,7 @@ class StorageInitializerTest {
 
         // Verify trainers were loaded
         assertEquals(3, trainerStorage.size(), "Should load 3 trainers from file");
-        
+
         // Verify trainer data
         Trainer johnDoe = findTrainerByName("John", "Doe");
         assertNotNull(johnDoe, "John Doe should be loaded");
@@ -62,7 +62,7 @@ class StorageInitializerTest {
 
         // Verify trainees were loaded
         assertEquals(3, traineeStorage.size(), "Should load 3 trainees from file");
-        
+
         // Verify trainee data
         Trainee aliceWilliams = findTraineeByName("Alice", "Williams");
         assertNotNull(aliceWilliams, "Alice Williams should be loaded");
@@ -82,7 +82,7 @@ class StorageInitializerTest {
 
         // Should not throw exception
         assertDoesNotThrow(() -> storageInitializer.afterPropertiesSet());
-        
+
         // Storages should be empty
         assertEquals(0, trainerStorage.size(), "Trainer storage should be empty");
         assertEquals(0, traineeStorage.size(), "Trainee storage should be empty");
@@ -91,7 +91,7 @@ class StorageInitializerTest {
     @Test
     void testAfterPropertiesSet_HandlesEmptyLines() throws Exception {
         ReflectionTestUtils.setField(storageInitializer, "initFilePath", "storage-init.txt");
-        
+
         when(passwordGenerator.generatePassword()).thenReturn("password");
 
         storageInitializer.afterPropertiesSet();
@@ -104,7 +104,7 @@ class StorageInitializerTest {
     @Test
     void testAfterPropertiesSet_GeneratesUniqueUsernames() throws Exception {
         ReflectionTestUtils.setField(storageInitializer, "initFilePath", "storage-init.txt");
-        
+
         when(passwordGenerator.generatePassword()).thenReturn("password");
 
         storageInitializer.afterPropertiesSet();
@@ -127,7 +127,7 @@ class StorageInitializerTest {
     @Test
     void testAfterPropertiesSet_HandlesUsernameCollisions() throws Exception {
         ReflectionTestUtils.setField(storageInitializer, "initFilePath", "storage-init.txt");
-        
+
         when(passwordGenerator.generatePassword()).thenReturn("password");
 
         storageInitializer.afterPropertiesSet();
@@ -139,7 +139,7 @@ class StorageInitializerTest {
         allUsernames.addAll(traineeStorage.values().stream()
                 .map(Trainee::getUsername)
                 .toList());
-        
+
         assertEquals(allUsernames.size(), allUsernames.stream().distinct().count(),
                 "All usernames should be unique");
     }
@@ -154,7 +154,8 @@ class StorageInitializerTest {
         storageInitializer.setTraineeStorage(newTraineeStorage);
         storageInitializer.setPasswordGenerator(newPasswordGen);
 
-        // Verify by checking if fields are set (using reflection or by testing behavior)
+        // Verify by checking if fields are set (using reflection or by testing
+        // behavior)
         assertNotNull(storageInitializer);
     }
 

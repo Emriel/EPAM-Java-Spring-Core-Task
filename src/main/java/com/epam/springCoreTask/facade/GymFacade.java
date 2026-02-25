@@ -14,7 +14,8 @@ public interface GymFacade {
 
     Trainer createTrainerProfile(String firstName, String lastName, String specialization);
 
-    Training createTrainingSession(UUID traineeId, UUID trainedId, String trainingName, TrainingType trainingType, LocalDate tariningDate, int trainingDuration);
+    Training createTrainingSession(UUID traineeId, UUID trainedId, String trainingName, TrainingType trainingType,
+            LocalDate tariningDate, int trainingDuration);
 
     List<Training> getTraineeTrainings(UUID traineeId);
 
